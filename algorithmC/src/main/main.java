@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista;
+package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import vista.PrincipalView;
 
 /**
  *
  * @author Tiffy
  */
-public class Algoritmos extends Application {
+public class main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
                 
-       VistaPrincipal vp = new VistaPrincipal();
+       PrincipalView vp = new PrincipalView();
         
         Scene scene = new Scene(vp.getRoot(), 1100, 610);
         
