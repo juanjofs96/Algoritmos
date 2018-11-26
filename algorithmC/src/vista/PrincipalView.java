@@ -6,6 +6,7 @@
 package vista;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,6 +25,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import modelo.QuickSort;
+import modelo.StoogeSort;
 import utils.DialogWindow;
 import utils.OperationFile;
 
@@ -185,10 +188,17 @@ public class PrincipalView {
         comparar.setOnAction(e -> {
             if (ruta != null) {
                 //prueba de que lee el archivo e imprime en consola
-                List<Integer> o = OperationFile.loadData(ruta);
-                o.forEach((f) -> {
-                    System.out.println(f);
-                });
+                //le puse arraysList aunque estaba List
+                ArrayList<Integer> o = OperationFile.loadData(ruta);
+                QuickSort q = new QuickSort();
+                int k =o.size()-1;
+                StoogeSort a = new StoogeSort();
+                //a.sort(o, 0, k);
+                q.sort(o, 0, k);
+                q.printArray(o);
+//                o.forEach((f) -> {
+//                    System.out.println(f);
+//                });
             } else {
                 DialogWindow.dialogoAdvertenciaArchivo();
             }
