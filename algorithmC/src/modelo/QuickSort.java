@@ -19,6 +19,14 @@ public class QuickSort {
        smaller (smaller than pivot) to left of 
        pivot and all greater elements to right 
        of pivot */
+    
+    /** 
+     * Metodo que divide el arreglo
+     * @param arr
+     * @param low
+     * @param high
+     * @return 
+     */
     public int partition( ArrayList<Integer> arr, int low, int high) 
     { 
             //int pivot = arr[high];
@@ -59,6 +67,14 @@ public class QuickSort {
       arr[] --> Array to be sorted, 
       low  --> Starting index, 
       high  --> Ending index */
+    
+    /** 
+     * Metodo Recursivo de Ordenamiento
+     * Referencia: https://www.geeksforgeeks.org/quick-sort/
+     * @param arr
+     * @param low
+     * @param high
+     */
     public void sort(ArrayList<Integer> arr, int low, int high) 
     { 
         if (low < high) 
