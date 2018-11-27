@@ -15,23 +15,21 @@ public class MergeSort {
     // Merges two subarrays of arr[]. 
     // First subarray is arr[l..m] 
     // Second subarray is arr[m+1..r] 
-
-    public static void merge(Integer arr[], int l, int m, int r) 
-
+    private static void merge(Integer arr[], int l, int m, int r) 
     { 
         // Find sizes of two subarrays to be merged 
         int n1 = m - l + 1; 
         int n2 = r - m; 
   
         /* Create temp arrays */
-        ArrayList<Integer> L=new ArrayList<>(n1);
-        ArrayList<Integer> R=new ArrayList<>(n2); 
-        
+        int L[] = new int [n1]; 
+        int R[] = new int [n2]; 
+  
         /*Copy data to temp arrays*/
         for (int i=0; i<n1; ++i) 
-            L.set(i, l+i); 
+            L[i] = arr[l + i]; 
         for (int j=0; j<n2; ++j) 
-            L.set(j, m+l+j); 
+            R[j] = arr[m + 1+ j]; 
   
   
         /* Merge the temp arrays */
@@ -43,14 +41,14 @@ public class MergeSort {
         int k = l; 
         while (i < n1 && j < n2) 
         { 
-            if (L.get(i)<=R.get(j)) 
+            if (L[i] <= R[j]) 
             { 
-                arr.set(k, L.get(i)); 
+                arr[k] = L[i]; 
                 i++; 
             } 
             else
             { 
-                arr.set(k, R.get(j)); 
+                arr[k] = R[j]; 
                 j++; 
             } 
             k++; 
@@ -59,7 +57,7 @@ public class MergeSort {
         /* Copy remaining elements of L[] if any */
         while (i < n1) 
         { 
-            arr.set(k, L.get(i)); 
+            arr[k] = L[i]; 
             i++; 
             k++; 
         } 
@@ -67,7 +65,7 @@ public class MergeSort {
         /* Copy remaining elements of R[] if any */
         while (j < n2) 
         { 
-            arr.set(k,R.get(j));
+            arr[k] = R[j]; 
             j++; 
             k++; 
         } 
@@ -75,10 +73,8 @@ public class MergeSort {
   
     // Main function that sorts arr[l..r] using 
     // merge() 
-
     public static void sort(Integer arr[], int l, int r) 
-    {
-
+    { 
         if (l < r) 
         { 
             // Find the middle point 
@@ -89,12 +85,13 @@ public class MergeSort {
             sort(arr , m+1, r); 
   
             // Merge the sorted halves 
-            merge(arr, l, m, r);  
+            merge(arr, l, m, r); 
         } 
     } 
     
     public static void printArray(Integer arr[]) 
     { 
+        System.out.println("Merge sort: ");
         int n = arr.length; 
         for (int i=0; i<n; ++i) 
             System.out.print(arr[i] + " "); 

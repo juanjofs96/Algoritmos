@@ -19,28 +19,36 @@ public class InsertionSort {
     */
     
     /*Function to sort array using insertion sort*/
-    void sort(ArrayList array) 
+    public static void sort(Integer arr[]) 
     { 
-        int n = array.size(); 
+        int n = arr.length; 
         for (int i=1; i<n; ++i) 
         {
-            int key = (int) (array.get(i));
-            //Integer a=array.get(i);
+            int key = (int) (arr[i]);
             int j = i-1; 
   
             /* Move elements of arr[0..i-1], that are 
                greater than key, to one position ahead 
                of their current position */
-            while (j>=0 && (int)(array.get(j)) > key) 
+            while (j>=0 && (int)(arr[j]) > key) 
             { 
                 
-                array.set(j+1,array.get(j)); 
+                arr[j+1]=arr[j]; 
                 j = j-1; 
             }
             
-            array.set(j+1,key); 
+            arr[j+1]=key; 
         } 
     
+    } 
+    
+    public static void printArray(Integer arr[]) 
+    { 
+        System.out.println("Insertion sort: ");
+        int n = arr.length; 
+        for (int i=0; i<n; ++i) 
+            System.out.print(arr[i] + " "); 
+        System.out.println(); 
     } 
     
     

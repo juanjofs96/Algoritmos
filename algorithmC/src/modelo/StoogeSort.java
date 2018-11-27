@@ -27,19 +27,14 @@ public class StoogeSort {
      * @param l, parametro desde donde iniciar
      * @param h el tamaño del arreglo,
      */
-    public void sort(ArrayList<Integer> arr, Integer l, Integer h) {
+    public static void sort(Integer arr[], Integer l, Integer h) {
         if (l >= h) {
             return;
         }
-        // if (arr[l] > arr[h]) { 
-        if (arr.get(l) > arr.get(h)) {
-            // Integer t = arr[l]; 
-            int t = arr.get(l);
-            //  arr[l] = arr[h]; 
-
-            arr.set(l, arr.get(h));
-            // arr[h] = t; 
-            arr.set(h, t);
+         if (arr[l] > arr[h]) { 
+            int t = arr[l];
+            arr[l] = arr[h]; 
+            arr[h] = t; 
         }
 
         if (h - l + 1 > 2) {
@@ -49,4 +44,14 @@ public class StoogeSort {
             sort(arr, l, h - t);
         }
     }
+    
+    public static void printArray(Integer arr[]) 
+    { 
+        System.out.println("Stooge sort: ");
+        int n = arr.length; 
+        for (int i=0; i<n; ++i) 
+            System.out.print(arr[i]+" "); 
+        System.out.println(); 
+    } 
+    
 }

@@ -195,15 +195,30 @@ public class PrincipalView {
                 Integer[] arr = new Integer[arraylist.size()];
                 arr = arraylist.toArray(arr);
                 
-                InsertionSort i = new InsertionSort();
-                QuickSort q = new QuickSort();
-                MergeSort m = new MergeSort();
-                StoogeSort a = new StoogeSort();
+                Integer[] arr2= arr.clone();
+                Integer[] arr3 = arr.clone();
+                Integer[] arr4 = arr.clone();
+
                 
                 int fin =arr.length-1;
                 //a.sort(o, 0, k);
-                m.sort(arr, 0, fin);
-                m.printArray(arr);
+                
+                InsertionSort.sort(arr);
+                InsertionSort.printArray(arr);
+                InsertionSort.printArray(arr2);
+                
+                MergeSort.sort(arr2,0,fin);
+                MergeSort.printArray(arr2);
+                
+                QuickSort.sort(arr3,0,fin);
+                QuickSort.printArray(arr3);
+                
+                StoogeSort.sort(arr4,0,fin);
+                StoogeSort.printArray(arr4);
+                
+                
+                
+                
 //                o.forEach((f) -> {
 //                    System.out.println(f);
 //                });
