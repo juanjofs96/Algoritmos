@@ -13,7 +13,7 @@ public class MergeSort {
     // Merges two subarrays of arr[]. 
     // First subarray is arr[l..m] 
     // Second subarray is arr[m+1..r] 
-    void merge(int arr[], int l, int m, int r) 
+    public static void merge(Integer arr[], int l, int m, int r) 
     { 
         // Find sizes of two subarrays to be merged 
         int n1 = m - l + 1; 
@@ -71,7 +71,7 @@ public class MergeSort {
   
     // Main function that sorts arr[l..r] using 
     // merge() 
-    void sort(int arr[], int l, int r) 
+    public static void sort(Integer arr[], int l, int r) 
     { 
         if (l < r) 
         { 
@@ -86,4 +86,13 @@ public class MergeSort {
             merge(arr, l, m, r); 
         } 
     } 
+    
+    public static void printArray(Integer arr[]) 
+    { 
+        int n = arr.length; 
+        for (int i=0; i<n; ++i) 
+            System.out.print(arr[i] + " "); 
+        System.out.println(); 
+    } 
+
 }

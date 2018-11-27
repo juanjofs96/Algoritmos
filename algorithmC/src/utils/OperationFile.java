@@ -33,9 +33,10 @@ public class OperationFile {
             }
         } catch (FileNotFoundException o) {
             System.out.println(o.getMessage());
+            DialogWindow.VentanaProblemasTecnicos();
         } catch (IOException o) {
-
             System.out.println(o.getMessage());
+            DialogWindow.VentanaProblemasTecnicos();
         }
         return datos;
     }

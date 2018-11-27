@@ -25,6 +25,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import modelo.InsertionSort;
+import modelo.MergeSort;
 import modelo.QuickSort;
 import modelo.StoogeSort;
 import utils.DialogWindow;
@@ -189,13 +191,19 @@ public class PrincipalView {
             if (ruta != null) {
                 //prueba de que lee el archivo e imprime en consola
                 //le puse arraysList aunque estaba List
-                ArrayList<Integer> o = OperationFile.loadData(ruta);
+                List<Integer> arraylist = OperationFile.loadData(ruta);
+                Integer[] arr = new Integer[arraylist.size()];
+                arr = arraylist.toArray(arr);
+                
+                InsertionSort i = new InsertionSort();
                 QuickSort q = new QuickSort();
-                int k =o.size()-1;
+                MergeSort m = new MergeSort();
                 StoogeSort a = new StoogeSort();
+                
+                int fin =arr.length-1;
                 //a.sort(o, 0, k);
-                q.sort(o, 0, k);
-                q.printArray(o);
+                m.sort(arr, 0, fin);
+                m.printArray(arr);
 //                o.forEach((f) -> {
 //                    System.out.println(f);
 //                });
