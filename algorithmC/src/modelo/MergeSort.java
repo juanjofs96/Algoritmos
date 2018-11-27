@@ -5,13 +5,18 @@
  */
 package modelo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author JuanJose FS
  */
 public class MergeSort {
+    
+    
+    /*
+        Código fuente tomado de:
+        https://www.geeksforgeeks.org/merge-sort/
+    */
+    
     // Merges two subarrays of arr[]. 
     // First subarray is arr[l..m] 
     // Second subarray is arr[m+1..r] 
