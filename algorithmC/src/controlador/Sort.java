@@ -16,7 +16,7 @@ import modelo.StoogeSort;
  * @author Tiffy
  */
 public class Sort {
-     private Integer[] arr_forMerge;
+    private Integer[] arr_forMerge;
     private Integer[] arr_forInsert;
     private Integer[] arr_forQuick;
     private Integer[] arr_forStooge;
