@@ -44,6 +44,7 @@ public class PrincipalView {
     private Spinner<Integer> spinner;
     private final int MAX;
     private String ruta = null;
+    private String name = null;
     private FileChooser fileChooser;
 
     /**
@@ -71,6 +72,7 @@ public class PrincipalView {
 
     /**
      * Método que devuelve el objeto BorderPane creado
+     *
      * @return Pane
      */
     public Pane getRoot() {
@@ -78,7 +80,7 @@ public class PrincipalView {
     }
 
     /**
-     *Método que inicializa los principales objetos de la PrincipalView
+     * Método que inicializa los principales objetos de la PrincipalView
      */
     private void inicializarObjetos() {
         quick = new CheckBox();
@@ -100,7 +102,7 @@ public class PrincipalView {
         stooge.setSelected(true);
 
         seleccionar = new Button("...");
-        seleccionar.setPrefSize(70, 20);
+        seleccionar.setPrefSize(500, 20);
         comparar = new Button("Comparar");
 
         spinner = new Spinner<>();
@@ -119,6 +121,7 @@ public class PrincipalView {
 
     /**
      * Método que permite crear la sección de CheckBox
+     *
      * @return HBox con un conjunto de Checkbox
      */
     private HBox seccionCheck() {
@@ -157,29 +160,33 @@ public class PrincipalView {
     }
 
     /**
-     * Método que permite leer la ruta del archivo que se utilizará para la comparación
+     * Método que permite leer la ruta del archivo que se utilizará para la
+     * comparación
+     *
      * @param primaryStage
      * @param fileChooser
      * @return String con la ruta del archivo seleccionado
      */
-     private String archivito(Stage primaryStage, FileChooser fileChooser) {
+    private String archivito(Stage primaryStage, FileChooser fileChooser) {
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
+            name = selectedFile.getName();
             return selectedFile.getAbsolutePath();
+            
         } else {
             //System.out.println("File selection cancelled.");
-            return null; 
+            return null;
         }
     }
-    
-     
-     /**
+
+    /**
      * Metodo que contiene la acción que realiza el boton seleccionar archivo
      */
     private void botonSeleccionar() {
         seleccionar.setOnAction(e -> {
             Stage s = new Stage();
             ruta = archivito(s, fileChooser);
+            seleccionar.setText(name);
         });
     }
 
@@ -194,34 +201,35 @@ public class PrincipalView {
                 List<Integer> arraylist = OperationFile.loadData(ruta);
                 Integer[] arr = new Integer[arraylist.size()];
                 arr = arraylist.toArray(arr);
-                
-                Integer[] arr2= arr.clone();
-                Integer[] arr3 = arr.clone();
-                Integer[] arr4 = arr.clone();
 
-                
-                int fin =arr.length-1;
-                //a.sort(o, 0, k);
-                
-                InsertionSort.sort(arr);
-                InsertionSort.printArray(arr);
-                InsertionSort.printArray(arr2);
-                
-                MergeSort.sort(arr2,0,fin);
-                MergeSort.printArray(arr2);
-                
-                QuickSort.sort(arr3,0,fin);
-                QuickSort.printArray(arr3);
-                
-                StoogeSort.sort(arr4,0,fin);
-                StoogeSort.printArray(arr4);
-                
-                
-                
-                
+                if (spinner.getValue() <= arr.length) {
+                    Integer[] arr2 = arr.clone();
+                    Integer[] arr3 = arr.clone();
+                    Integer[] arr4 = arr.clone();
+
+                    int fin = arr.length - 1;
+                    //a.sort(o, 0, k);
+
+                    InsertionSort.sort(arr);
+                    InsertionSort.printArray(arr);
+                    InsertionSort.printArray(arr2);
+
+                    MergeSort.sort(arr2, 0, fin);
+                    MergeSort.printArray(arr2);
+
+                    QuickSort.sort(arr3, 0, fin);
+                    QuickSort.printArray(arr3);
+
+                    StoogeSort.sort(arr4, 0, fin);
+                    StoogeSort.printArray(arr4);
+
 //                o.forEach((f) -> {
 //                    System.out.println(f);
 //                });
+                }else{
+                    DialogWindow.dialogoAdvertenciaDatos();
+                }
+
             } else {
                 DialogWindow.dialogoAdvertenciaArchivo();
             }

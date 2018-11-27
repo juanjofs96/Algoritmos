@@ -65,4 +65,13 @@ public class DialogWindow {
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
     }
+    
+    public static void dialogoAdvertenciaDatos() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar una cantidad de datos menor o igual a la cantidad de datos del archivo seleccionado! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
 }
