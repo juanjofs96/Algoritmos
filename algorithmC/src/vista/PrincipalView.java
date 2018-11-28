@@ -5,9 +5,12 @@
  */
 package vista;
 
+
+import org.controlsfx.dialog.ProgressDialog;
 import controlador.Sort;
 import java.io.File;
 import java.util.List;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -153,7 +156,7 @@ public class PrincipalView {
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
-        gp.addRow(0, l1, seleccionar, l2, spinner, comparar, this.progressBar);
+        gp.addRow(0, l1, seleccionar, l2, spinner, comparar);
         gp.setHgap(5);
         v1.getChildren().addAll(gp);
         return v1;
@@ -274,15 +277,21 @@ public class PrincipalView {
 //                this.Graficar(prueba);
                     //  this.comparar.setDisable(true);
                     lineChart.getData().clear();
-                    progressBar.setProgress(0);
-
+                    //progressBar.progressProperty().unbind();
+                    //progressBar.setProgress(0);
+                    //this.comparar.setDisable(true);
+                    //Popup p = new Popup();
+                    //p.show(p);
                     List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 
                     Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
 
                     Tarea t = new Tarea(prueba);
-                    progressBar.progressProperty().unbind();
-                    progressBar.progressProperty().bind(t.progressProperty());
+                    //progressBar.progressProperty().unbind();
+                    //progressBar.progressProperty().bind(t.progressProperty());
+                    ProgressDialog popup = new ProgressDialog(t);
+                    popup.setTitle("Ejecucion En Proceso");
+                    popup.setContentText("Espere un momento por favor...");
                     t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
                             new EventHandler<WorkerStateEvent>() {
 

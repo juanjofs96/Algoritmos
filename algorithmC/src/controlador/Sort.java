@@ -65,49 +65,49 @@ public class Sort {
         for (int size = 10; size <= this.cantidad_elementos;) {
             if (s) {
                 readForStooge(size);
-                System.out.println("\n StoogeSort cantidad de elementos: " + size);
+                //System.out.println("\n StoogeSort cantidad de elementos: " + size);
                 double timeStart = System.currentTimeMillis();
                 StoogeSort.sort(arr_forStooge, 0, size - 1);
-                StoogeSort.printArray(arr_forStooge);
+                //StoogeSort.printArray(arr_forStooge);
                 double timeEnd = System.currentTimeMillis();
                 timeStooge.add((timeEnd - timeStart));
             }
             if (q) {
-                System.out.println("QUICKSORT cantidad de elementos " + size);
+                //System.out.println("QUICKSORT cantidad de elementos " + size);
                 readForQuick(size);
                 double timeStart1 = System.currentTimeMillis();
                 QuickSort.sort(arr_forQuick, 0, size - 1);
-                QuickSort.printArray(arr_forQuick);
+                //QuickSort.printArray(arr_forQuick);
                 double timeEnd1 = System.currentTimeMillis();
                 timeQuick.add((timeEnd1 - timeStart1));
             }
             if (m) {
-                System.out.println("MergeSORT cantidad de elementos: " + size);
+                //System.out.println("MergeSORT cantidad de elementos: " + size);
                 readForMerge(size);
                 double timeStart2 = System.currentTimeMillis();
                 MergeSort.sort(arr_forMerge, 0, size - 1);
-                MergeSort.printArray(arr_forMerge);
+                //MergeSort.printArray(arr_forMerge);
                 double timeEnd2 = System.currentTimeMillis();
                 timeMerge.add((timeEnd2 - timeStart2));
             }
             if (i) {
-                System.out.println("InsertSort cantidad de elementos: " + size);
+                //System.out.println("InsertSort cantidad de elementos: " + size);
                 readForInsert(size);
                 double timeStart3 = System.currentTimeMillis();
                 InsertionSort.sort(arr_forInsert);
-                InsertionSort.printArray(arr_forInsert);
+                //InsertionSort.printArray(arr_forInsert);
                 double timeEnd3 = System.currentTimeMillis();
                 timeInsert.add((timeEnd3 - timeStart3));
             }
             size = size + 10;
-            Thread.sleep(500);
+            //Thread.sleep(500);
             t.actualizar(size, this.cantidad_elementos);
         }
 
-        System.out.println("tiempos de StoogeSort: " + timeStooge.toString());
-        System.out.println("tiempos de QuickSort: " + timeQuick.toString());
-        System.out.println("tiempos de MergeSort: " + timeMerge.toString());
-        System.out.println("tiempos de InsertionSort: " + timeInsert.toString());
+//        System.out.println("tiempos de StoogeSort: " + timeStooge.toString());
+//        System.out.println("tiempos de QuickSort: " + timeQuick.toString());
+//        System.out.println("tiempos de MergeSort: " + timeMerge.toString());
+//        System.out.println("tiempos de InsertionSort: " + timeInsert.toString());
     }
 
     /**
