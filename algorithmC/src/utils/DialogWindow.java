@@ -42,7 +42,7 @@ public class DialogWindow {
     }
 
     /**
-     * Método que permitirá mostrar una ventana el usuario no seleccione un
+     * Método que permitirá mostrar una ventana al usuario cuando no seleccione un
      * archivo
      */
     public static void dialogoAdvertenciaArchivo() {
@@ -54,6 +54,20 @@ public class DialogWindow {
         advertencia.showAndWait();
     }
 
+    
+    /**
+     * Método que permitirá mostrar una ventana al usuario cuando el archivo de texto
+     * contenga tipo de datos caracteres
+     */
+    public static void dialogoArchivoInvalido() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar un archivo con números enteros! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
     /**
      * Método que permitirá saber que la comparación se está realizando
      */
@@ -66,10 +80,37 @@ public class DialogWindow {
         advertencia.showAndWait();
     }
     
+    /**
+     * Este método le indica al usuario que debe seleccionar una cantidad indicada de datos
+     */
     public static void dialogoAdvertenciaDatos() {
         Alert advertencia = new Alert(Alert.AlertType.WARNING);
         advertencia.setTitle("Error");
         advertencia.setContentText("Debe asegurarse de seleccionar una cantidad de datos menor o igual a la cantidad de datos del archivo seleccionado! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
+    /**
+     * Este método le indica al usuario que debe ingresar sólo datos numéricos
+     */
+    public static void dialogoAdvertenciaNumeros() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de Ingresar datos numericos! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
+    /**
+     * Este metodo le indica al usuario que no seleccionó un algoritmo de comparación
+     */
+    public static void dialogoAdvertenciaCheckBox() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar al menos un método de comparación! ");
         advertencia.setHeaderText(null);
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();

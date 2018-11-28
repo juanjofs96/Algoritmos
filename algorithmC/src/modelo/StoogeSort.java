@@ -43,6 +43,10 @@ public class StoogeSort {
         }
     }
     
+    /**
+     * Método que imprime el arreglo
+     * @param arr 
+     */
     public static void printArray(Integer arr[]) 
     { 
         System.out.println("Stooge sort: ");

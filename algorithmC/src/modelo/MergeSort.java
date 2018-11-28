@@ -94,6 +94,10 @@ public class MergeSort {
         } 
     } 
     
+    /**
+     * Método que imprime el arreglo
+     * @param arr 
+     */
     public static void printArray(Integer arr[]) 
     { 
         System.out.println("Merge sort: ");
