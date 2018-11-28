@@ -5,11 +5,15 @@
  */
 package vista;
 
+import controlador.Sort;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -46,6 +50,10 @@ public class PrincipalView {
     private String ruta = null;
     private String name = null;
     private FileChooser fileChooser;
+    private NumberAxis xAxis = new NumberAxis();
+    private NumberAxis yAxis = new NumberAxis();
+    private LineChart<Number,Number> lineChart = new LineChart<>(xAxis,yAxis);
+    
 
     /**
      * Constructor de la clase
@@ -117,6 +125,9 @@ public class PrincipalView {
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("HTML Files", "*.htm")
         );
+        lineChart.setTitle("Comparacion de Algoritmos");
+        xAxis.setLabel("Cantidad de Elementos");
+        yAxis.setLabel("Tiempo de Ejecución");
     }
 
     /**
@@ -149,7 +160,31 @@ public class PrincipalView {
         v1.getChildren().addAll(gp);
         return v1;
     }
-
+    private void AuxGraficar(LineChart<Number,Number> lineChart, List<Double> arr, String algoritmo){
+        XYChart.Series series = new XYChart.Series();
+        series.setName(algoritmo);
+        int i=0;
+        for (Double x: arr){
+            i+=10;
+            series.getData().add(new XYChart.Data(i, x));
+        }
+        lineChart.getData().add(series);
+    }
+    private void Graficar(Sort s){
+        if(s.isM()){
+            this.AuxGraficar(lineChart,s.getTimeMerge(), "MergeSort");
+        }
+        if(s.isI()){
+            this.AuxGraficar(lineChart,s.getTimeInsert(),"InsertionSort");
+        }
+        if(s.isQ()){
+            this.AuxGraficar(lineChart,s.getTimeQuick(),"QuickSort");
+        }
+        if(s.isS()){
+            this.AuxGraficar(lineChart,s.getTimeStooge(),"StogeSort");
+        }
+        
+    }
     /**
      * Método que permite asignar al BorderPane los objetos que contendrán los
      * principales elementos para interactuar con el programa
@@ -157,8 +192,9 @@ public class PrincipalView {
     private void asignarObjetos() {
         root.setTop(seccionSeleccion());
         root.setBottom(seccionCheck());
+        root.setCenter(this.lineChart);
     }
-
+    
     /**
      * Método que permite leer la ruta del archivo que se utilizará para la
      * comparación
@@ -199,29 +235,32 @@ public class PrincipalView {
                 //prueba de que lee el archivo e imprime en consola
                 //le puse arraysList aunque estaba List
                 List<Integer> arraylist = OperationFile.loadData(ruta);
-                Integer[] arr = new Integer[arraylist.size()];
-                arr = arraylist.toArray(arr);
+//                Integer[] arr = new Integer[arraylist.size()];
+//                arr = arraylist.toArray(arr);
+                   int k = arraylist.size();
+                if (spinner.getValue() <= k) {
+                    Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
+                    prueba.allSort();
+                    this.Graficar(prueba);
+//                    Integer[] arr2 = arr.clone();
+//                    Integer[] arr3 = arr.clone();
+//                    Integer[] arr4 = arr.clone();
 
-                if (spinner.getValue() <= arr.length) {
-                    Integer[] arr2 = arr.clone();
-                    Integer[] arr3 = arr.clone();
-                    Integer[] arr4 = arr.clone();
-
-                    int fin = arr.length - 1;
-                    //a.sort(o, 0, k);
-
-                    InsertionSort.sort(arr);
-                    InsertionSort.printArray(arr);
-                    InsertionSort.printArray(arr2);
-
-                    MergeSort.sort(arr2, 0, fin);
-                    MergeSort.printArray(arr2);
-
-                    QuickSort.sort(arr3, 0, fin);
-                    QuickSort.printArray(arr3);
-
-                    StoogeSort.sort(arr4, 0, fin);
-                    StoogeSort.printArray(arr4);
+//                    int fin = arr.length - 1;
+//                    //a.sort(o, 0, k);
+//
+//                    InsertionSort.sort(arr);
+//                    InsertionSort.printArray(arr);
+//                    //InsertionSort.printArray(arr2);
+//
+//                    MergeSort.sort(arr2, 0, fin);
+//                    MergeSort.printArray(arr2);
+//
+//                    QuickSort.sort(arr3, 0, fin);
+//                    QuickSort.printArray(arr3);
+//
+//                    StoogeSort.sort(arr4, 0, fin);
+//                    StoogeSort.printArray(arr4);
 
 //                o.forEach((f) -> {
 //                    System.out.println(f);

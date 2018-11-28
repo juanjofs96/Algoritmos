@@ -6,6 +6,7 @@
 package controlador;
 
 import java.util.ArrayList;
+import java.util.List;
 import modelo.InsertionSort;
 import modelo.MergeSort;
 import modelo.QuickSort;
@@ -26,7 +27,7 @@ public class Sort {
     private ArrayList<Double> timeStooge;
     private int cantidad_elementos;
     private boolean m, q, i, s;
-    private ArrayList<Integer> arraylist;
+    private List<Integer> arraylist;
 
     /**
      * Constructor de la clase
@@ -36,9 +37,9 @@ public class Sort {
      * @param i,  boolean ,indica si el usuario quiere comparar el Algoritmo Insertionsort
      * @param s,  boolean ,indica si el usuario quiere comparar el Algoritmo Stoogesort
      */
-    public Sort(ArrayList<Integer> arraylist, boolean m, boolean q, boolean i, boolean s) {
+    public Sort(List<Integer> arraylist, boolean m, boolean q, boolean i, boolean s) {
         this.cantidad_elementos = arraylist.size();
-        this.arraylist = new ArrayList<>();//
+        //this.arraylist = new ArrayList<>();//
         this.arraylist = arraylist;
         //variables booleanas
         this.m = m;
@@ -74,7 +75,7 @@ public class Sort {
                 readForQuick(size);
                 double timeStart1 = System.currentTimeMillis();
                 QuickSort.sort(arr_forQuick, 0, size - 1);
-                QuickSort.printArray(arr_forStooge);
+                QuickSort.printArray(arr_forQuick);
                 double timeEnd1 = System.currentTimeMillis();
                 timeQuick.add((timeEnd1 - timeStart1));
             }
@@ -149,7 +150,7 @@ public class Sort {
         }
     }
     
-       public ArrayList<Double> getTimeMerge() {
+    public ArrayList<Double> getTimeMerge() {
         return timeMerge;
     }
 
@@ -165,7 +166,24 @@ public class Sort {
         return timeStooge;
     }
 
-    public ArrayList<Integer> getArraylist() {
+    public List<Integer> getArraylist() {
         return arraylist;
     }
+
+    public boolean isM() {
+        return m;
+    }
+
+    public boolean isQ() {
+        return q;
+    }
+
+    public boolean isI() {
+        return i;
+    }
+
+    public boolean isS() {
+        return s;
+    }
+    
 }
