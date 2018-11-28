@@ -74,4 +74,12 @@ public class DialogWindow {
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
     }
+    public static void dialogoAdvertenciaNumeros() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de Ingresar datos numericos! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
 }

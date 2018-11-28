@@ -229,26 +229,41 @@ public class PrincipalView {
     /**
      * Metodo que contiene la acción que realiza el boton comparar
      */
+    private int validarNumero(String numero){
+        int valor ;
+        try{
+            valor = Integer.parseInt(numero);
+            return valor;
+        }catch(NumberFormatException e){
+            return -1;
+        }
+    }
     private void botonComparar() {
         comparar.setOnAction(e -> {
-            if (ruta != null) {
+            int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
+            if (ruta == null) {
                 //prueba de que lee el archivo e imprime en consola
                 //le puse arraysList aunque estaba List
-                int valorAnalizar = spinner.getValue();
-                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
-                int ArrSize = arraylist.size();
-                
-                if ( valorAnalizar<= ArrSize && valorAnalizar>=10) {
-                    Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
-                    prueba.allSort();
-                    this.Graficar(prueba);
-
-                }else{
-                    DialogWindow.dialogoAdvertenciaDatos();
-                }
-
-            } else {
                 DialogWindow.dialogoAdvertenciaArchivo();
+           }
+            else if(valorAnalizar==-1){
+                DialogWindow.dialogoAdvertenciaNumeros();
+            }
+            else if(valorAnalizar<20){
+                DialogWindow.dialogoAdvertenciaDatos();
+            }
+            else {
+                //int valorAnalizar = Integer.parseInt();
+                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
+                //int ArrSize = arraylist.size();
+                //System.out.println(ArrSize);
+                //if ( valorAnalizar>=20) {
+                Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
+                prueba.allSort();
+                this.Graficar(prueba);
+
+                //}else
+                
             }
 
         });
