@@ -127,7 +127,7 @@ public class PrincipalView {
         );
         lineChart.setTitle("Comparacion de Algoritmos");
         xAxis.setLabel("Cantidad de Elementos");
-        yAxis.setLabel("Tiempo de Ejecución");
+        yAxis.setLabel("Tiempo de Ejecución (ms)");
     }
 
     /**
@@ -234,37 +234,15 @@ public class PrincipalView {
             if (ruta != null) {
                 //prueba de que lee el archivo e imprime en consola
                 //le puse arraysList aunque estaba List
-                List<Integer> arraylist = OperationFile.loadData(ruta);
-//                Integer[] arr = new Integer[arraylist.size()];
-//                arr = arraylist.toArray(arr);
-                   int k = arraylist.size();
-                if (spinner.getValue() <= k) {
+                int valorAnalizar = spinner.getValue();
+                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
+                int ArrSize = arraylist.size();
+                
+                if ( valorAnalizar<= ArrSize && valorAnalizar>=10) {
                     Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
                     prueba.allSort();
                     this.Graficar(prueba);
-//                    Integer[] arr2 = arr.clone();
-//                    Integer[] arr3 = arr.clone();
-//                    Integer[] arr4 = arr.clone();
 
-//                    int fin = arr.length - 1;
-//                    //a.sort(o, 0, k);
-//
-//                    InsertionSort.sort(arr);
-//                    InsertionSort.printArray(arr);
-//                    //InsertionSort.printArray(arr2);
-//
-//                    MergeSort.sort(arr2, 0, fin);
-//                    MergeSort.printArray(arr2);
-//
-//                    QuickSort.sort(arr3, 0, fin);
-//                    QuickSort.printArray(arr3);
-//
-//                    StoogeSort.sort(arr4, 0, fin);
-//                    StoogeSort.printArray(arr4);
-
-//                o.forEach((f) -> {
-//                    System.out.println(f);
-//                });
                 }else{
                     DialogWindow.dialogoAdvertenciaDatos();
                 }

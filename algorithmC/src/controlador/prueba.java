@@ -19,17 +19,17 @@ public class prueba {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ArrayList<Integer> a20 = OperationFile.loadData("src/recursos/prueba20.txt");
-        Sort f = new Sort(a20, true, true, true, true);
-        f.allSort();
-        System.out.println("-------------------------------------------------");
-        ArrayList<Integer> b250 = OperationFile.loadData("src/recursos/prueba250.txt");
-        Sort g = new Sort(b250, true, true, true, true);
-        g.allSort();
-        System.out.println("-------------------------------------------------");
-        ArrayList<Integer> c1000 = OperationFile.loadData("src/recursos/prueba1000.txt");
-        Sort h = new Sort(c1000, true, true, true, true);
-        h.allSort();
+//        ArrayList<Integer> a20 = OperationFile.loadData("src/recursos/prueba20.txt");
+//        Sort f = new Sort(a20, true, true, true, true);
+//        f.allSort();
+//        System.out.println("-------------------------------------------------");
+//        ArrayList<Integer> b250 = OperationFile.loadData("src/recursos/prueba250.txt");
+//        Sort g = new Sort(b250, true, true, true, true);
+//        g.allSort();
+//        System.out.println("-------------------------------------------------");
+//        ArrayList<Integer> c1000 = OperationFile.loadData("src/recursos/prueba1000.txt");
+//        Sort h = new Sort(c1000, true, true, true, true);
+//        h.allSort();
         
     }
 

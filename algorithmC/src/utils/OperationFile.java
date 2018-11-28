@@ -22,14 +22,17 @@ public class OperationFile {
     /**
      * Método que permite leer un archivo 
      * @param ruta, direccion del archivo que se utilizará
+     * @param cantidad
      * @return  List<Integer> con los datos que contenga el archivo
      */
-    public static ArrayList<Integer> loadData(String ruta) {
+    public static ArrayList<Integer> loadData(String ruta, int cantidad) {
         ArrayList datos = new ArrayList<>();
+        int cont=0;
         try (BufferedReader inputStream = new BufferedReader(new FileReader(ruta))) {
             String line = null;
-            while ((line = inputStream.readLine()) != null) {
+            while ((line = inputStream.readLine()) != null && cont<cantidad) {
                 datos.add(Integer.valueOf(line));
+                cont++;
             }
         } catch (FileNotFoundException o) {
             System.out.println(o.getMessage());
