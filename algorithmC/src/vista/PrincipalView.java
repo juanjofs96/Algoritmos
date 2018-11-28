@@ -52,13 +52,14 @@ public class PrincipalView {
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
     private ProgressBar progressBar = new ProgressBar(0);
+
     /**
      * Constructor de la clase
      */
     public PrincipalView() {
         this.MAX = Integer.MAX_VALUE;
         root = new BorderPane();
-        BackgroundFill fondo = new BackgroundFill(Color.LIGHTSTEELBLUE, new CornerRadii(1),
+        BackgroundFill fondo = new BackgroundFill(Color.HONEYDEW, new CornerRadii(1),
                 new Insets(0.0, 0.0, 0.0, 0.0));
         root.setBackground(new Background(fondo));
         inicializarObjetos();
@@ -122,7 +123,7 @@ public class PrincipalView {
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
                 new FileChooser.ExtensionFilter("HTML Files", "*.htm")
         );
-        lineChart.setTitle("Comparacion de Algoritmos");
+        lineChart.setTitle("Comparación de Algoritmos");
         xAxis.setLabel("Cantidad de Elementos");
         yAxis.setLabel("Tiempo de Ejecución (ms)");
     }
@@ -152,7 +153,7 @@ public class PrincipalView {
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
-        gp.addRow(0, l1, seleccionar, l2, spinner, comparar,this.progressBar);
+        gp.addRow(0, l1, seleccionar, l2, spinner, comparar, this.progressBar);
         gp.setHgap(5);
         v1.getChildren().addAll(gp);
         return v1;
@@ -256,54 +257,49 @@ public class PrincipalView {
      */
     private void botonComparar() {
         comparar.setOnAction(e -> {
-            int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
-            //int numLines = OperationFile.cantidadElementos(ruta);
-            //int numLinesEnteros = OperationFile.cantidadLineasEnteros(ruta);
-            //System.out.println("C1: " + numLines);
-            //System.out.println("C2: " + numLinesEnteros);
-            if (ruta == null) {
-                DialogWindow.dialogoAdvertenciaArchivo();
-            } else if (valorAnalizar == -1) {
-                DialogWindow.dialogoAdvertenciaNumeros();
-            } else if (notChecked()) {
-                DialogWindow.dialogoAdvertenciaCheckBox();
-            } else if (valorAnalizar < 20) {
-                DialogWindow.dialogoAdvertenciaDatos();}
-            //} else if (numLines == numLinesEnteros) {
-            else{
+            try {
+                int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
+                if (ruta == null) {
+                    DialogWindow.dialogoAdvertenciaArchivo();
+                } else if (valorAnalizar == -1) {
+                    DialogWindow.dialogoAdvertenciaNumeros();
+                } else if (notChecked()) {
+                    DialogWindow.dialogoAdvertenciaCheckBox();
+                } else if (valorAnalizar < 20) {
+                    DialogWindow.dialogoAdvertenciaDatos();
+                } else {
 //                List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 //                Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
 //                prueba.allSort();
 //                this.Graficar(prueba);
-                    this.comparar.setDisable(true);
-               progressBar.setProgress(0);
-                
-                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
-                
-                Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
-                
-                Tarea t = new Tarea(prueba);
-                progressBar.progressProperty().unbind();
-                progressBar.progressProperty().bind(t.progressProperty());
-                t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
-                       new EventHandler<WorkerStateEvent>() {
- 
-                           @Override
-                           public void handle(WorkerStateEvent t1) {
-                               Sort p2 = t.getValue();
-                               Graficar(p2);
-                           }
-                       });
-                
-                new Thread(t).start();
+                    //  this.comparar.setDisable(true);
+                    lineChart.getData().clear();
+                    progressBar.setProgress(0);
 
-            } 
-//            else if (numLines != numLinesEnteros) {
-//                DialogWindow.dialogoArchivoInvalido();
-//            }
+                    List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 
-        }
-        );
+                    Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
+
+                    Tarea t = new Tarea(prueba);
+                    progressBar.progressProperty().unbind();
+                    progressBar.progressProperty().bind(t.progressProperty());
+                    t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
+                            new EventHandler<WorkerStateEvent>() {
+
+                        @Override
+                        public void handle(WorkerStateEvent t1) {
+                            Sort p2 = t.getValue();
+                            Graficar(p2);
+                        }
+                    });
+
+                    new Thread(t).start();
+
+                }
+            } catch (Exception r) {
+                DialogWindow.VentanaProblemasTecnicos();
+            }
+        });
     }
 
     /**

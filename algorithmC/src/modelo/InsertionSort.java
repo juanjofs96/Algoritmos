@@ -16,8 +16,6 @@ public class InsertionSort {
         Código fuente tomado de:
         https://www.geeksforgeeks.org/insertion-sort/
     */
-    
-    /*Function to sort array using insertion sort*/
     public static void sort(Integer arr[]) 
     { 
         int n = arr.length; 
