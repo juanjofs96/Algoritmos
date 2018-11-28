@@ -11,6 +11,7 @@ import modelo.InsertionSort;
 import modelo.MergeSort;
 import modelo.QuickSort;
 import modelo.StoogeSort;
+import vista.Tarea;
 
 /**
  *
@@ -56,8 +57,9 @@ public class Sort {
 
     /**
      * Método que permite tomar los tiempos de ejecución
+     * @param t
      */
-    public void allSort() {
+    public void allSort(Tarea t) throws InterruptedException {
         //size es la cantidad de elementos que se van a ir ordenando, no está a escala
         //y no está validado para que funcione con la interfaz aun
         for (int size = 10; size <= this.cantidad_elementos;) {
@@ -98,6 +100,8 @@ public class Sort {
                 timeInsert.add((timeEnd3 - timeStart3));
             }
             size = size + 10;
+            Thread.sleep(500);
+            t.actualizar(size, this.cantidad_elementos);
         }
 
         System.out.println("tiempos de StoogeSort: " + timeStooge.toString());

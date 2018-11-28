@@ -8,6 +8,8 @@ package vista;
 import controlador.Sort;
 import java.io.File;
 import java.util.List;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
@@ -16,6 +18,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Background;
@@ -48,7 +51,7 @@ public class PrincipalView {
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
+    private ProgressBar progressBar = new ProgressBar(0);
     /**
      * Constructor de la clase
      */
@@ -149,7 +152,7 @@ public class PrincipalView {
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
-        gp.addRow(0, l1, seleccionar, l2, spinner, comparar);
+        gp.addRow(0, l1, seleccionar, l2, spinner, comparar,this.progressBar);
         gp.setHgap(5);
         v1.getChildren().addAll(gp);
         return v1;
@@ -265,16 +268,39 @@ public class PrincipalView {
             } else if (notChecked()) {
                 DialogWindow.dialogoAdvertenciaCheckBox();
             } else if (valorAnalizar < 20) {
-                DialogWindow.dialogoAdvertenciaDatos();
-            } else if (numLines == numLinesEnteros) {
-                List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
-                Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
-                prueba.allSort();
-                this.Graficar(prueba);
+                DialogWindow.dialogoAdvertenciaDatos();}
+            //} else if (numLines == numLinesEnteros) {
+            else{
+//                List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
+//                Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
+//                prueba.allSort();
+//                this.Graficar(prueba);
+                    this.comparar.setDisable(true);
+               progressBar.setProgress(0);
+                
+                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
+                
+                Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
+                
+                Tarea t = new Tarea(prueba);
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(t.progressProperty());
+                t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
+                       new EventHandler<WorkerStateEvent>() {
+ 
+                           @Override
+                           public void handle(WorkerStateEvent t1) {
+                               Sort p2 = t.getValue();
+                               Graficar(p2);
+                           }
+                       });
+                
+                new Thread(t).start();
 
-            } else if (numLines != numLinesEnteros) {
-                DialogWindow.dialogoArchivoInvalido();
-            }
+            } 
+//            else if (numLines != numLinesEnteros) {
+//                DialogWindow.dialogoArchivoInvalido();
+//            }
 
         }
         );
