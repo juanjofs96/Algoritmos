@@ -257,10 +257,10 @@ public class PrincipalView {
     private void botonComparar() {
         comparar.setOnAction(e -> {
             int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
-            int numLines = OperationFile.cantidadElementos(ruta);
-            int numLinesEnteros = OperationFile.cantidadLineasEnteros(ruta);
-            System.out.println("C1: " + numLines);
-            System.out.println("C2: " + numLinesEnteros);
+            //int numLines = OperationFile.cantidadElementos(ruta);
+            //int numLinesEnteros = OperationFile.cantidadLineasEnteros(ruta);
+            //System.out.println("C1: " + numLines);
+            //System.out.println("C2: " + numLinesEnteros);
             if (ruta == null) {
                 DialogWindow.dialogoAdvertenciaArchivo();
             } else if (valorAnalizar == -1) {

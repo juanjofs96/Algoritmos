@@ -42,6 +42,9 @@ public class OperationFile {
         } catch (IOException o) {
             System.out.println(o.getMessage());
             DialogWindow.VentanaProblemasTecnicos();
+        } catch(NumberFormatException e1){
+            System.out.println(e1.getMessage());
+            DialogWindow.dialogoArchivoInvalido();
         }
         return datos;
     }
@@ -51,23 +54,23 @@ public class OperationFile {
      * @param ruta, direccion del archivo que se utilizará
      * @return int con el número de líneas que contenga el archivo
      */
-    public static int cantidadElementos(String ruta) {
-
-       int numLines=0; 
-        File f = new File(ruta);
-        try  (Scanner entrada = new Scanner(f)) {
-       while (entrada.hasNextLine()) { //mientras queden enteros por leer
-                //System.out.println(entrada.nextLine());
-                entrada.nextLine();
-                numLines=numLines+1;
-            }            
-        } catch (FileNotFoundException e) {
-            System.out.println(e.toString());
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return numLines;   
-    }
+//    public static int cantidadElementos(String ruta) {
+//
+//       int numLines=0; 
+//        File f = new File(ruta);
+//        try  (Scanner entrada = new Scanner(f)) {
+//       while (entrada.hasNextLine()) { //mientras queden enteros por leer
+//                //System.out.println(entrada.nextLine());
+//                entrada.nextLine();
+//                numLines=numLines+1;
+//            }            
+//        } catch (FileNotFoundException e) {
+//            System.out.println(e.toString());
+//        } catch (Exception e) {
+//            System.out.println(e.toString());
+//        }
+//        return numLines;   
+//    }
 
     
     /**
@@ -75,24 +78,24 @@ public class OperationFile {
      * @param ruta, direccion del archivo que se utilizará
      * @return  int con la cantidad de líneas que son enteros
      */
-    public static int cantidadLineasEnteros(String ruta){
-        
-        int numeroEntero=0;
-        File f = new File(ruta);
-
-        try  (Scanner entrada = new Scanner(f)) {
-
-            while (entrada.hasNextInt()) { 
-                //System.out.println(entrada.nextInt());
-                entrada.nextInt();
-                numeroEntero=numeroEntero+1;
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println(e.toString());
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return numeroEntero;
-    }
+//    public static int cantidadLineasEnteros(String ruta){
+//        
+//        int numeroEntero=0;
+//        File f = new File(ruta);
+//
+//        try  (Scanner entrada = new Scanner(f)) {
+//
+//            while (entrada.hasNextInt()) { 
+//                //System.out.println(entrada.nextInt());
+//                entrada.nextInt();
+//                numeroEntero=numeroEntero+1;
+//            }
+//        } catch (FileNotFoundException e) {
+//            System.out.println(e.toString());
+//        } catch (Exception e) {
+//            System.out.println(e.toString());
+//        }
+//        return numeroEntero;
+//    }
 
 }

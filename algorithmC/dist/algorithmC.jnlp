@@ -8,11 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-<<<<<<< HEAD
-    <jar href="algorithmC.jar" size="20310" download="eager" />
-=======
-    <jar href="algorithmC.jar" size="23691" download="eager" />
->>>>>>> 5dd0db7af044fb8a00355f0d185c160e5b870d4f
+    <jar href="algorithmC.jar" size="23787" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="algorithmC" >
     <param name="requiredFXVersion" value="8.0+"/>
