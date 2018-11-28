@@ -7,7 +7,6 @@ package vista;
 
 import controlador.Sort;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,10 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import modelo.InsertionSort;
-import modelo.MergeSort;
-import modelo.QuickSort;
-import modelo.StoogeSort;
 import utils.DialogWindow;
 import utils.OperationFile;
 
@@ -52,8 +47,7 @@ public class PrincipalView {
     private FileChooser fileChooser;
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
-    private LineChart<Number,Number> lineChart = new LineChart<>(xAxis,yAxis);
-    
+    private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
 
     /**
      * Constructor de la clase
@@ -160,31 +154,47 @@ public class PrincipalView {
         v1.getChildren().addAll(gp);
         return v1;
     }
-    private void AuxGraficar(LineChart<Number,Number> lineChart, List<Double> arr, String algoritmo){
+
+    /**
+     * Método auxiliar que permite agregar la data al Objeto tipo XYXChart para
+     * poder graficar
+     *
+     * @param lineChart
+     * @param arr
+     * @param algoritmo
+     */
+    private void AuxGraficar(LineChart<Number, Number> lineChart, List<Double> arr, String algoritmo) {
         XYChart.Series series = new XYChart.Series();
         series.setName(algoritmo);
-        int i=0;
-        for (Double x: arr){
-            i+=10;
+        int i = 0;
+        for (Double x : arr) {
+            i += 10;
             series.getData().add(new XYChart.Data(i, x));
         }
         lineChart.getData().add(series);
     }
-    private void Graficar(Sort s){
-        if(s.isM()){
-            this.AuxGraficar(lineChart,s.getTimeMerge(), "MergeSort");
+
+    /**
+     * Método que permitirá realizar las curvas en la gráfica
+     *
+     * @param s
+     */
+    private void Graficar(Sort s) {
+        if (s.isM()) {
+            this.AuxGraficar(lineChart, s.getTimeMerge(), "MergeSort");
         }
-        if(s.isI()){
-            this.AuxGraficar(lineChart,s.getTimeInsert(),"InsertionSort");
+        if (s.isI()) {
+            this.AuxGraficar(lineChart, s.getTimeInsert(), "InsertionSort");
         }
-        if(s.isQ()){
-            this.AuxGraficar(lineChart,s.getTimeQuick(),"QuickSort");
+        if (s.isQ()) {
+            this.AuxGraficar(lineChart, s.getTimeQuick(), "QuickSort");
         }
-        if(s.isS()){
-            this.AuxGraficar(lineChart,s.getTimeStooge(),"StogeSort");
+        if (s.isS()) {
+            this.AuxGraficar(lineChart, s.getTimeStooge(), "StogeSort");
         }
-        
+
     }
+
     /**
      * Método que permite asignar al BorderPane los objetos que contendrán los
      * principales elementos para interactuar con el programa
@@ -194,7 +204,7 @@ public class PrincipalView {
         root.setBottom(seccionCheck());
         root.setCenter(this.lineChart);
     }
-    
+
     /**
      * Método que permite leer la ruta del archivo que se utilizará para la
      * comparación
@@ -208,9 +218,8 @@ public class PrincipalView {
         if (selectedFile != null) {
             name = selectedFile.getName();
             return selectedFile.getAbsolutePath();
-            
+
         } else {
-            //System.out.println("File selection cancelled.");
             return null;
         }
     }
@@ -229,56 +238,54 @@ public class PrincipalView {
     /**
      * Metodo que contiene la acción que realiza el boton comparar
      */
-    private int validarNumero(String numero){
-        int valor ;
-        try{
+    private int validarNumero(String numero) {
+        int valor;
+        try {
             valor = Integer.parseInt(numero);
             return valor;
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
+
+    /**
+     * Acción que realiza el boton Comparar
+     */
     private void botonComparar() {
         comparar.setOnAction(e -> {
             int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
-            int numLines=OperationFile.cantidadElementos(ruta);
-            int numLinesEnteros=OperationFile.cantidadLineasEnteros(ruta);
-            System.out.println("C1: "+numLines);
-            System.out.println("C2: "+numLinesEnteros);
+            int numLines = OperationFile.cantidadElementos(ruta);
+            int numLinesEnteros = OperationFile.cantidadLineasEnteros(ruta);
+            System.out.println("C1: " + numLines);
+            System.out.println("C2: " + numLinesEnteros);
             if (ruta == null) {
-                //prueba de que lee el archivo e imprime en consola
-                //le puse arraysList aunque estaba List
                 DialogWindow.dialogoAdvertenciaArchivo();
-            }
-            else if(valorAnalizar==-1){
+            } else if (valorAnalizar == -1) {
                 DialogWindow.dialogoAdvertenciaNumeros();
-            }
-            else if(valorAnalizar<20){
+            } else if (notChecked()) {
+                DialogWindow.dialogoAdvertenciaCheckBox();
+            } else if (valorAnalizar < 20) {
                 DialogWindow.dialogoAdvertenciaDatos();
-            }
-            else if(numLines==numLinesEnteros) {
-                //int valorAnalizar = Integer.parseInt();
-                
-                
-                
-                    List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
-                    //int ArrSize = arraylist.size();
-                    //System.out.println(ArrSize);
-                    //if ( valorAnalizar>=20) {
-                    Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
-                    prueba.allSort();
-                    this.Graficar(prueba);
-                
-                
-                
-                
+            } else if (numLines == numLinesEnteros) {
+                List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
+                Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
+                prueba.allSort();
+                this.Graficar(prueba);
 
-                //}else
-                
-            }else if(numLines!=numLinesEnteros){
+            } else if (numLines != numLinesEnteros) {
                 DialogWindow.dialogoArchivoInvalido();
             }
 
-        });
+        }
+        );
+    }
+
+    /**
+     * Permite verificar si el usuario no selecionó ningún método para comparar
+     *
+     * @return
+     */
+    public boolean notChecked() {
+        return !this.merge.isSelected() && !this.insert.isSelected() && !this.quick.isSelected() && !this.stooge.isSelected();
     }
 }

@@ -107,7 +107,7 @@ public class Sort {
     }
 
     /**
-     * 
+     * Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
      * @param size 
      */
     private void readForInsert(int size) {
@@ -118,7 +118,7 @@ public class Sort {
     }
 
     /**
-     * 
+     *  Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
      * @param size 
      */
     private void readForQuick(int size) {
@@ -128,7 +128,7 @@ public class Sort {
         }
     }
 
-    /**
+    /** Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
      * 
      * @param size 
      */
@@ -140,7 +140,7 @@ public class Sort {
     }
 
     /**
-     * 
+     *  Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
      * @param size 
      */
     private void readForStooge(int size) {

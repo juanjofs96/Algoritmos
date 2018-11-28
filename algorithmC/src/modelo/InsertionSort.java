@@ -41,6 +41,10 @@ public class InsertionSort {
     
     } 
     
+    /**
+     * Método que imprime el arreglo
+     * @param arr 
+     */
     public static void printArray(Integer arr[]) 
     { 
         System.out.println("Insertion sort: ");

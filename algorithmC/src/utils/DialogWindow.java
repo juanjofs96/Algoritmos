@@ -80,6 +80,9 @@ public class DialogWindow {
         advertencia.showAndWait();
     }
     
+    /**
+     * Este método le indica al usuario que debe seleccionar una cantidad indicada de datos
+     */
     public static void dialogoAdvertenciaDatos() {
         Alert advertencia = new Alert(Alert.AlertType.WARNING);
         advertencia.setTitle("Error");
@@ -88,10 +91,26 @@ public class DialogWindow {
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
     }
+    
+    /**
+     * Este método le indica al usuario que debe ingresar sólo datos numéricos
+     */
     public static void dialogoAdvertenciaNumeros() {
         Alert advertencia = new Alert(Alert.AlertType.WARNING);
         advertencia.setTitle("Error");
         advertencia.setContentText("Debe asegurarse de Ingresar datos numericos! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
+    /**
+     * Este metodo le indica al usuario que no seleccionó un algoritmo de comparación
+     */
+    public static void dialogoAdvertenciaCheckBox() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar al menos un método de comparación! ");
         advertencia.setHeaderText(null);
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
