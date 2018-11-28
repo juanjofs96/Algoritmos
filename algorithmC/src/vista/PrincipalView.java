@@ -241,29 +241,42 @@ public class PrincipalView {
     private void botonComparar() {
         comparar.setOnAction(e -> {
             int valorAnalizar = this.validarNumero(spinner.getEditor().getText());
+            int numLines=OperationFile.cantidadElementos(ruta);
+            int numLinesEnteros=OperationFile.cantidadLineasEnteros(ruta);
+            System.out.println("C1: "+numLines);
+            System.out.println("C2: "+numLinesEnteros);
             if (ruta == null) {
                 //prueba de que lee el archivo e imprime en consola
                 //le puse arraysList aunque estaba List
                 DialogWindow.dialogoAdvertenciaArchivo();
-           }
+            }
             else if(valorAnalizar==-1){
                 DialogWindow.dialogoAdvertenciaNumeros();
             }
             else if(valorAnalizar<20){
                 DialogWindow.dialogoAdvertenciaDatos();
             }
-            else {
+            else if(numLines==numLinesEnteros) {
                 //int valorAnalizar = Integer.parseInt();
-                List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
-                //int ArrSize = arraylist.size();
-                //System.out.println(ArrSize);
-                //if ( valorAnalizar>=20) {
-                Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
-                prueba.allSort();
-                this.Graficar(prueba);
+                
+                
+                
+                    List<Integer> arraylist = OperationFile.loadData(ruta,valorAnalizar);
+                    //int ArrSize = arraylist.size();
+                    //System.out.println(ArrSize);
+                    //if ( valorAnalizar>=20) {
+                    Sort prueba = new Sort(arraylist,this.merge.isSelected(),this.quick.isSelected(),this.insert.isSelected(),this.stooge.isSelected());
+                    prueba.allSort();
+                    this.Graficar(prueba);
+                
+                
+                
+                
 
                 //}else
                 
+            }else if(numLines!=numLinesEnteros){
+                DialogWindow.dialogoArchivoInvalido();
             }
 
         });

@@ -42,7 +42,7 @@ public class DialogWindow {
     }
 
     /**
-     * Método que permitirá mostrar una ventana el usuario no seleccione un
+     * Método que permitirá mostrar una ventana al usuario cuando no seleccione un
      * archivo
      */
     public static void dialogoAdvertenciaArchivo() {
@@ -54,6 +54,20 @@ public class DialogWindow {
         advertencia.showAndWait();
     }
 
+    
+    /**
+     * Método que permitirá mostrar una ventana al usuario cuando el archivo de texto
+     * contenga tipo de datos caracteres
+     */
+    public static void dialogoArchivoInvalido() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar un archivo con números enteros! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
     /**
      * Método que permitirá saber que la comparación se está realizando
      */
