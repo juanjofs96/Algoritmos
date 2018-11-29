@@ -58,8 +58,8 @@ public class PrincipalView {
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
     public static Font fuente = new Font("Broadway", 22);
-    
-    private Image imageFile = new Image("/recursos/FILE.png",25,25,false,false);
+
+    private Image imageFile = new Image("/recursos/FILE.png", 25, 25, false, false);
 
     /**
      * Constructor de la clase
@@ -169,7 +169,7 @@ public class PrincipalView {
         gp.setHgap(20);
         v1.getChildren().addAll(gp);
         v1.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(l3,v1);
+        box.getChildren().addAll(l3, v1);
         box.setSpacing(20);
         box.setAlignment(Pos.CENTER);
         return box;
@@ -183,12 +183,12 @@ public class PrincipalView {
      * @param arr
      * @param algoritmo
      */
-    private void AuxGraficar(LineChart<Number, Number> lineChart, List<Double> arr, String algoritmo) {
+    private void AuxGraficar(LineChart<Number, Number> lineChart, List<Double> arr, String algoritmo, int escala) {
         XYChart.Series series = new XYChart.Series();
         series.setName(algoritmo);
         int i = 0;
         for (Double x : arr) {
-            i += 10;
+            i += escala;
             series.getData().add(new XYChart.Data(i, x));
         }
         lineChart.getData().add(series);
@@ -199,18 +199,18 @@ public class PrincipalView {
      *
      * @param s
      */
-    private void Graficar(Sort s) {
+    private void Graficar(Sort s, int escala) {
         if (s.isM()) {
-            this.AuxGraficar(lineChart, s.getTimeMerge(), "MergeSort");
+            this.AuxGraficar(lineChart, s.getTimeMerge(), "MergeSort", escala);
         }
         if (s.isI()) {
-            this.AuxGraficar(lineChart, s.getTimeInsert(), "InsertionSort");
+            this.AuxGraficar(lineChart, s.getTimeInsert(), "InsertionSort", escala);
         }
         if (s.isQ()) {
-            this.AuxGraficar(lineChart, s.getTimeQuick(), "QuickSort");
+            this.AuxGraficar(lineChart, s.getTimeQuick(), "QuickSort", escala);
         }
         if (s.isS()) {
-            this.AuxGraficar(lineChart, s.getTimeStooge(), "StogeSort");
+            this.AuxGraficar(lineChart, s.getTimeStooge(), "StoogeSort", escala);
         }
 
     }
@@ -296,14 +296,15 @@ public class PrincipalView {
                     popup.setContentText("Espere un momento por favor...");
                     popup.setHeaderText("Comparación de Algoritmos");
                     Stage stage = (Stage) popup.getDialogPane().getScene().getWindow();
-                    stage.getIcons().add( new Image(this.getClass().getResource("/recursos/graph.png").toString()));
+                    stage.getIcons().add(new Image(this.getClass().getResource("/recursos/graph.png").toString()));
                     t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                             new EventHandler<WorkerStateEvent>() {
 
                         @Override
                         public void handle(WorkerStateEvent t1) {
                             Sort p2 = t.getValue();
-                            Graficar(p2);
+                            int o = escala(p2.getCantidad_elementos());
+                            Graficar(p2, o);
                             OperationFile.exportData(p2.getTimeMerge(), p2.getTimeQuick(), p2.getTimeInsert(), p2.getTimeStooge(), p2.isM(), p2.isQ(), p2.isI(), p2.isS(), p2.getForFile());
                             DialogWindow.dialogoInformacionArchivo();
                         }
@@ -325,5 +326,18 @@ public class PrincipalView {
      */
     public boolean notChecked() {
         return !this.merge.isSelected() && !this.insert.isSelected() && !this.quick.isSelected() && !this.stooge.isSelected();
+    }
+
+    /**
+     * Método permite ajustar la escala
+     *
+     * @param datos, cantidad de datos a ordenar
+     * @return int
+     */
+    public static int escala(int datos) {
+        if (datos > 0 && datos <= 500) {
+            return 10;
+        }
+        return 100;
     }
 }

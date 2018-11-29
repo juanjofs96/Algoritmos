@@ -67,7 +67,8 @@ public class Sort {
      * @param t
      */
     public void allSort(Tarea t) throws InterruptedException {
-        for (int size = 10; size <= this.cantidad_elementos;) {
+        int escala= this.escala(this.cantidad_elementos);
+        for (int size = escala; size <= this.cantidad_elementos;) {
             this.forFile.add(size);
             if (s) {
                 readForStooge(size);
@@ -99,7 +100,7 @@ public class Sort {
                 double timeEnd3 = System.currentTimeMillis();
                 timeInsert.add((timeEnd3 - timeStart3));
             }
-            size = size + 10;
+            size = size + escala;
             t.actualizar(size, this.cantidad_elementos);
         }
     }
@@ -212,6 +213,27 @@ public class Sort {
 
     public List<Integer> getForFile() {
         return forFile;
+    }
+
+    /**
+     * 
+     * @return la cantidad de elementos a ordenar
+     */
+    public int getCantidad_elementos() {
+        return cantidad_elementos;
+    }
+    
+    
+    /**
+     * Método que permite cambiar la escala de acuerdo a la cantidad de elementos en el arreglo
+     * @param datos
+     * @return 
+     */
+     public int escala(int datos) {
+        if (datos >0 && datos <= 500) {
+            return 10;
+        }
+        return 100;
     }
 
 }
