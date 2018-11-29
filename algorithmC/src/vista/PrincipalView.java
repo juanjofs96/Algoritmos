@@ -5,12 +5,11 @@
  */
 package vista;
 
-
+import controlador.Tarea;
 import org.controlsfx.dialog.ProgressDialog;
 import controlador.Sort;
 import java.io.File;
 import java.util.List;
-import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -54,7 +53,6 @@ public class PrincipalView {
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-    private ProgressBar progressBar = new ProgressBar(0);
 
     /**
      * Constructor de la clase
@@ -271,34 +269,25 @@ public class PrincipalView {
                 } else if (valorAnalizar < 20) {
                     DialogWindow.dialogoAdvertenciaDatos();
                 } else {
-//                List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
-//                Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
-//                prueba.allSort();
-//                this.Graficar(prueba);
-                    //  this.comparar.setDisable(true);
                     lineChart.getData().clear();
-                    //progressBar.progressProperty().unbind();
-                    //progressBar.setProgress(0);
-                    //this.comparar.setDisable(true);
-                    //Popup p = new Popup();
-                    //p.show(p);
                     List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 
                     Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
 
                     Tarea t = new Tarea(prueba);
-                    //progressBar.progressProperty().unbind();
-                    //progressBar.progressProperty().bind(t.progressProperty());
+
                     ProgressDialog popup = new ProgressDialog(t);
                     popup.setTitle("Ejecucion En Proceso");
                     popup.setContentText("Espere un momento por favor...");
-                    t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, //
+                    t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                             new EventHandler<WorkerStateEvent>() {
 
                         @Override
                         public void handle(WorkerStateEvent t1) {
                             Sort p2 = t.getValue();
                             Graficar(p2);
+                            OperationFile.exportData(p2.getTimeMerge(), p2.getTimeQuick(), p2.getTimeInsert(), p2.getTimeStooge(), p2.isM(), p2.isQ(), p2.isI(), p2.isS(), p2.getForFile());
+                            DialogWindow.dialogoInformacionArchivo();
                         }
                     });
 

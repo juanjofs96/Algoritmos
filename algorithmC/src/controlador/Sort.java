@@ -11,13 +11,13 @@ import modelo.InsertionSort;
 import modelo.MergeSort;
 import modelo.QuickSort;
 import modelo.StoogeSort;
-import vista.Tarea;
 
 /**
  *
  * @author Tiffy
  */
 public class Sort {
+
     private Integer[] arr_forMerge;
     private Integer[] arr_forInsert;
     private Integer[] arr_forQuick;
@@ -29,40 +29,46 @@ public class Sort {
     private int cantidad_elementos;
     private boolean m, q, i, s;
     private List<Integer> arraylist;
+    private List<Integer> forFile;
 
     /**
      * Constructor de la clase
+     *
      * @param arraylist, Arreglo con los elementos del archivo
-     * @param m, boolean ,indica si el usuario quiere comparar el Algoritmo Mergesort
-     * @param q, boolean ,indica si el usuario quiere comparar el Algoritmo Quicksort
-     * @param i,  boolean ,indica si el usuario quiere comparar el Algoritmo Insertionsort
-     * @param s,  boolean ,indica si el usuario quiere comparar el Algoritmo Stoogesort
+     * @param m, boolean ,indica si el usuario quiere comparar el Algoritmo
+     * Mergesort
+     * @param q, boolean ,indica si el usuario quiere comparar el Algoritmo
+     * Quicksort
+     * @param i, boolean ,indica si el usuario quiere comparar el Algoritmo
+     * Insertionsort
+     * @param s, boolean ,indica si el usuario quiere comparar el Algoritmo
+     * Stoogesort
      */
     public Sort(List<Integer> arraylist, boolean m, boolean q, boolean i, boolean s) {
         this.cantidad_elementos = arraylist.size();
-        //this.arraylist = new ArrayList<>();//
         this.arraylist = arraylist;
         //variables booleanas
         this.m = m;
         this.q = q;
         this.i = i;
         this.s = s;
-
         //inicializa los arreglos que contendrán el tiempo
         timeStooge = new ArrayList<>();
         timeQuick = new ArrayList<>();
         timeMerge = new ArrayList<>();
         timeInsert = new ArrayList<>();
+        //inicializa el arreglo que contendrá el intervalo
+        forFile = new ArrayList<>();
     }
 
     /**
      * Método que permite tomar los tiempos de ejecución
+     *
      * @param t
      */
     public void allSort(Tarea t) throws InterruptedException {
-        //size es la cantidad de elementos que se van a ir ordenando, no está a escala
-        //y no está validado para que funcione con la interfaz aun
         for (int size = 10; size <= this.cantidad_elementos;) {
+            this.forFile.add(size);
             if (s) {
                 readForStooge(size);
                 //System.out.println("\n StoogeSort cantidad de elementos: " + size);
@@ -73,46 +79,36 @@ public class Sort {
                 timeStooge.add((timeEnd - timeStart));
             }
             if (q) {
-                //System.out.println("QUICKSORT cantidad de elementos " + size);
                 readForQuick(size);
                 double timeStart1 = System.currentTimeMillis();
                 QuickSort.sort(arr_forQuick, 0, size - 1);
-                //QuickSort.printArray(arr_forQuick);
                 double timeEnd1 = System.currentTimeMillis();
                 timeQuick.add((timeEnd1 - timeStart1));
             }
             if (m) {
-                //System.out.println("MergeSORT cantidad de elementos: " + size);
                 readForMerge(size);
                 double timeStart2 = System.currentTimeMillis();
                 MergeSort.sort(arr_forMerge, 0, size - 1);
-                //MergeSort.printArray(arr_forMerge);
                 double timeEnd2 = System.currentTimeMillis();
                 timeMerge.add((timeEnd2 - timeStart2));
             }
             if (i) {
-                //System.out.println("InsertSort cantidad de elementos: " + size);
                 readForInsert(size);
                 double timeStart3 = System.currentTimeMillis();
                 InsertionSort.sort(arr_forInsert);
-                //InsertionSort.printArray(arr_forInsert);
                 double timeEnd3 = System.currentTimeMillis();
                 timeInsert.add((timeEnd3 - timeStart3));
             }
             size = size + 10;
-            //Thread.sleep(500);
             t.actualizar(size, this.cantidad_elementos);
         }
-
-//        System.out.println("tiempos de StoogeSort: " + timeStooge.toString());
-//        System.out.println("tiempos de QuickSort: " + timeQuick.toString());
-//        System.out.println("tiempos de MergeSort: " + timeMerge.toString());
-//        System.out.println("tiempos de InsertionSort: " + timeInsert.toString());
     }
 
     /**
-     * Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
-     * @param size 
+     * Método que permite copiar los elementos del archivo al arreglo de un
+     * determinado tamaño
+     *
+     * @param size
      */
     private void readForInsert(int size) {
         arr_forInsert = new Integer[size];
@@ -122,8 +118,10 @@ public class Sort {
     }
 
     /**
-     *  Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
-     * @param size 
+     * Método que permite copiar los elementos del archivo al arreglo de un
+     * determinado tamaño
+     *
+     * @param size
      */
     private void readForQuick(int size) {
         arr_forQuick = new Integer[size];
@@ -132,9 +130,11 @@ public class Sort {
         }
     }
 
-    /** Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
-     * 
-     * @param size 
+    /**
+     * Método que permite copiar los elementos del archivo al arreglo de un
+     * determinado tamaño
+     *
+     * @param size
      */
     private void readForMerge(int size) {
         arr_forMerge = new Integer[size];
@@ -144,8 +144,10 @@ public class Sort {
     }
 
     /**
-     *  Método que permite copiar los elementos del archivo al arreglo de un determinado tamaño
-     * @param size 
+     * Método que permite copiar los elementos del archivo al arreglo de un
+     * determinado tamaño
+     *
+     * @param size
      */
     private void readForStooge(int size) {
         arr_forStooge = new Integer[size];
@@ -153,7 +155,7 @@ public class Sort {
             this.arr_forStooge[i] = this.arraylist.get(i);
         }
     }
-    
+
     public ArrayList<Double> getTimeMerge() {
         return timeMerge;
     }
@@ -174,20 +176,42 @@ public class Sort {
         return arraylist;
     }
 
+    /**
+     * Indica si MergeSort está seleccionado
+     *
+     * @return m
+     */
     public boolean isM() {
         return m;
     }
 
+    /**
+     * Indica si QuickSort está seleccionado
+     *
+     * @return q
+     */
     public boolean isQ() {
         return q;
     }
 
+     /**
+     * Indica si InsertSort está seleccionado
+     * @return i
+     */
     public boolean isI() {
         return i;
     }
 
+     /**
+     * Indica si StoogeSort está seleccionado
+     * @return s
+     */
     public boolean isS() {
         return s;
     }
-    
+
+    public List<Integer> getForFile() {
+        return forFile;
+    }
+
 }
