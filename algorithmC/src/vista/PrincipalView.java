@@ -8,7 +8,14 @@ package vista;
 import controlador.Tarea;
 import org.controlsfx.dialog.ProgressDialog;
 import controlador.Sort;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -47,7 +54,7 @@ import utils.OperationFile;
 public class PrincipalView {
 
     private BorderPane root;
-    private Button seleccionar, comparar;
+    private Button seleccionar, comparar,escribir;
     private CheckBox quick, merge, insert, stooge;
     private Spinner<Integer> spinner;
     private final int MAX;
@@ -60,7 +67,7 @@ public class PrincipalView {
     public static Font fuente = new Font("Broadway", 22);
 
     private Image imageFile = new Image("/recursos/folder.png", 25, 25, false, false);
-    private int exceso=0;
+    private int exceso = 0;
 
     /**
      * Constructor de la clase
@@ -82,7 +89,7 @@ public class PrincipalView {
         asignarObjetos();
         botonSeleccionar();
         botonComparar();
-
+        botonEscribir(MAX);
     }
 
     /**
@@ -115,7 +122,10 @@ public class PrincipalView {
         stooge.setText("StoogeSort");
         stooge.setStyle("-fx-font-weight: bold");
         stooge.setSelected(true);
-
+        
+        escribir = new Button("Generación de datos");
+        escribir.setPrefSize(200, 20);
+        
         seleccionar = new Button();
         seleccionar.setGraphic(new ImageView(imageFile));
         seleccionar.setPrefSize(200, 20);
@@ -123,7 +133,7 @@ public class PrincipalView {
 
         spinner = new Spinner<>();
         spinner.setEditable(true);
-        spinner.setPrefSize(70, 20);
+        spinner.setPrefSize(100, 20);
         SpinnerValueFactory<Integer> valueFactory
                 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, MAX, 1);
         spinner.setValueFactory(valueFactory);
@@ -158,17 +168,16 @@ public class PrincipalView {
      * @return HBox
      */
     private HBox seccionSeleccion() {
-        
+
         HBox v1 = new HBox();
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
-        gp.addRow(0, l1, seleccionar, l2, spinner, comparar);
+        gp.addRow(0, l1, seleccionar, l2, spinner, comparar,escribir);
         gp.setHgap(20);
         v1.getChildren().addAll(gp);
         v1.setAlignment(Pos.CENTER);
 
-        
         return v1;
 
     }
@@ -184,12 +193,12 @@ public class PrincipalView {
     private void AuxGraficar(LineChart<Number, Number> lineChart, List<Double> arr, String algoritmo, int escala) {
         XYChart.Series series = new XYChart.Series();
         series.setName(algoritmo);
-        series.getData().add(new XYChart.Data(0,0));
+        series.getData().add(new XYChart.Data(0, 0));
         int i = 0;
         for (Double x : arr) {
             i += escala;
-            if(this.exceso!=0&&arr.size()*10==i&&(escala==10||escala==100)){   
-                i+=this.exceso;
+            if (this.exceso != 0 && arr.size() * 10 == i && (escala == 10 || escala == 100)) {
+                i += this.exceso;
             }
             series.getData().add(new XYChart.Data(i, x));
         }
@@ -289,14 +298,14 @@ public class PrincipalView {
                 } else if (valorAnalizar < 10) {
                     DialogWindow.dialogoAdvertenciaDatosMinimos();
                 } else {
-                    this.exceso=valorAnalizar%10;
+                    this.exceso = valorAnalizar % 10;
                     lineChart.getData().clear();
                     List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 
                     if (valorAnalizar > arraylist.size()) {
                         DialogWindow.dialogoAdvertenciaDatos();
                     } else {
-                        Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected(),this.exceso);
+                        Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected(), this.exceso);
 
                         Tarea t = new Tarea(prueba);
 
@@ -316,7 +325,7 @@ public class PrincipalView {
                                 Graficar(p2, o);
                                 OperationFile.exportData(p2.getTimeMerge(), p2.getTimeQuick(), p2.getTimeInsert(), p2.getTimeStooge(), p2.isM(), p2.isQ(), p2.isI(), p2.isS(), p2.getForFile());
                                 DialogWindow.dialogoInformacionArchivo();
-                                
+
                             }
                         });
 
@@ -327,6 +336,33 @@ public class PrincipalView {
                 DialogWindow.VentanaProblemasTecnicos();
             }
         });
+    }
+
+    private void botonEscribir(int cantidad) {
+        escribir.setOnAction(e -> {
+
+            File f;
+            //System.out.println(nombreArchivo);
+            Date date = new Date();
+            DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
+            String f1 = hourdateFormat.format(date);
+            f = new File("src/recursos/archivogenerado" + f1 +"("+cantidad+"datos).txt");
+            //Escritura
+            try {
+                FileWriter w = new FileWriter(f);
+                BufferedWriter bw = new BufferedWriter(w);
+                PrintWriter wr = new PrintWriter(bw);
+                for (int i = 0; i <= cantidad; i++) {
+                    wr.write("" + (int) (Math.random() * 1000) + 1 + "\n");//escribimos en el archivo
+                }
+                wr.close();
+                bw.close();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+                DialogWindow.VentanaProblemasTecnicos();
+            }
+        });
+
     }
 
     /**
@@ -348,7 +384,9 @@ public class PrincipalView {
         if (datos > 50 && datos <= 500) {
             return 10;
         }
-        if(datos<=50&&datos>0)return 1;
+        if (datos <= 50 && datos > 0) {
+            return 1;
+        }
         return 100;
     }
 }
