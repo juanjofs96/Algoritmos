@@ -30,7 +30,7 @@ public class Sort {
     private boolean m, q, i, s;
     private List<Integer> arraylist;
     private List<Integer> forFile;
-
+    private int exceso=0;
     /**
      * Constructor de la clase
      *
@@ -43,8 +43,9 @@ public class Sort {
      * Insertionsort
      * @param s, boolean ,indica si el usuario quiere comparar el Algoritmo
      * Stoogesort
+     * @param ex
      */
-    public Sort(List<Integer> arraylist, boolean m, boolean q, boolean i, boolean s) {
+    public Sort(List<Integer> arraylist, boolean m, boolean q, boolean i, boolean s,int ex) {
         this.cantidad_elementos = arraylist.size();
         this.arraylist = arraylist;
         //variables booleanas
@@ -52,6 +53,8 @@ public class Sort {
         this.q = q;
         this.i = i;
         this.s = s;
+        //variable de exceso de rango
+        this.exceso=ex;
         //inicializa los arreglos que contendrán el tiempo
         timeStooge = new ArrayList<>();
         timeQuick = new ArrayList<>();
@@ -67,7 +70,12 @@ public class Sort {
      * @param t
      */
     public void allSort(Tarea t) throws InterruptedException {
-        for (int size = 10; size <= this.cantidad_elementos;) {
+        
+        int escala= this.escala(this.cantidad_elementos);
+        for (int size = escala; size <= this.cantidad_elementos;) {
+            if(this.cantidad_elementos-size==this.exceso&&(escala==10||escala==100)){
+                size+=this.exceso;
+            }
             this.forFile.add(size);
             if (s) {
                 readForStooge(size);
@@ -98,13 +106,7 @@ public class Sort {
                 double timeEnd3 = System.currentTimeMillis();
                 timeInsert.add((timeEnd3 - timeStart3));
             }
-            size = size + 10;
-
-//        System.out.println("tiempos de StoogeSort: " + timeStooge.toString());
-//        System.out.println("tiempos de QuickSort: " + timeQuick.toString());
-//        System.out.println("tiempos de MergeSort: " + timeMerge.toString());
-//        System.out.println("tiempos de InsertionSort: " + timeInsert.toString());
-
+            size = size + escala;
             t.actualizar(size, this.cantidad_elementos);
         }
 
@@ -218,6 +220,28 @@ public class Sort {
 
     public List<Integer> getForFile() {
         return forFile;
+    }
+
+    /**
+     * 
+     * @return la cantidad de elementos a ordenar
+     */
+    public int getCantidad_elementos() {
+        return cantidad_elementos;
+    }
+    
+    
+    /**
+     * Método que permite cambiar la escala de acuerdo a la cantidad de elementos en el arreglo
+     * @param datos
+     * @return 
+     */
+     public int escala(int datos) {
+        if (datos >50 && datos <= 500) {
+            return 10;
+        }
+        if(datos<=50&&datos>0)return 1;
+        return 100;
     }
 
 }
