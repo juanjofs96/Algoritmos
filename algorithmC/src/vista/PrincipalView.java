@@ -23,6 +23,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -30,7 +32,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.DialogWindow;
@@ -53,6 +57,9 @@ public class PrincipalView {
     private NumberAxis xAxis = new NumberAxis();
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+    public static Font fuente = new Font("Broadway", 22);
+    
+    private Image imageFile = new Image("/recursos/FILE.png",25,25,false,false);
 
     /**
      * Constructor de la clase
@@ -108,8 +115,9 @@ public class PrincipalView {
         stooge.setStyle("-fx-font-weight: bold");
         stooge.setSelected(true);
 
-        seleccionar = new Button("...");
-        seleccionar.setPrefSize(500, 20);
+        seleccionar = new Button();
+        seleccionar.setGraphic(new ImageView(imageFile));
+        seleccionar.setPrefSize(200, 20);
         comparar = new Button("Comparar");
 
         spinner = new Spinner<>();
@@ -149,15 +157,22 @@ public class PrincipalView {
      *
      * @return HBox
      */
-    private HBox seccionSeleccion() {
+    private VBox seccionSeleccion() {
+        VBox box = new VBox();
+        Label l3 = new Label("Análisis de Algoritmos");
+        l3.setFont(fuente);
         HBox v1 = new HBox();
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
         gp.addRow(0, l1, seleccionar, l2, spinner, comparar);
-        gp.setHgap(5);
+        gp.setHgap(20);
         v1.getChildren().addAll(gp);
-        return v1;
+        v1.setAlignment(Pos.CENTER);
+        box.getChildren().addAll(l3,v1);
+        box.setSpacing(20);
+        box.setAlignment(Pos.CENTER);
+        return box;
     }
 
     /**
@@ -279,6 +294,9 @@ public class PrincipalView {
                     ProgressDialog popup = new ProgressDialog(t);
                     popup.setTitle("Ejecucion En Proceso");
                     popup.setContentText("Espere un momento por favor...");
+                    popup.setHeaderText("Comparación de Algoritmos");
+                    Stage stage = (Stage) popup.getDialogPane().getScene().getWindow();
+                    stage.getIcons().add( new Image(this.getClass().getResource("/recursos/graph.png").toString()));
                     t.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
                             new EventHandler<WorkerStateEvent>() {
 
