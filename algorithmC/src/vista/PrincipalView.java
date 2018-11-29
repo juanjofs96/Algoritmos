@@ -54,9 +54,10 @@ import utils.OperationFile;
 public class PrincipalView {
 
     private BorderPane root;
-    private Button seleccionar, comparar,escribir;
+    private Button seleccionar, comparar, escribir;
     private CheckBox quick, merge, insert, stooge;
     private Spinner<Integer> spinner;
+    private Spinner<Integer> spinner2;
     private final int MAX;
     private String ruta = null;
     private String name = null;
@@ -89,7 +90,7 @@ public class PrincipalView {
         asignarObjetos();
         botonSeleccionar();
         botonComparar();
-        botonEscribir(MAX);
+        botonEscribir();
     }
 
     /**
@@ -122,10 +123,10 @@ public class PrincipalView {
         stooge.setText("StoogeSort");
         stooge.setStyle("-fx-font-weight: bold");
         stooge.setSelected(true);
-        
+
         escribir = new Button("Generación de datos");
         escribir.setPrefSize(200, 20);
-        
+
         seleccionar = new Button();
         seleccionar.setGraphic(new ImageView(imageFile));
         seleccionar.setPrefSize(200, 20);
@@ -137,6 +138,13 @@ public class PrincipalView {
         SpinnerValueFactory<Integer> valueFactory
                 = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, MAX, 1);
         spinner.setValueFactory(valueFactory);
+
+        spinner2 = new Spinner<>();
+        spinner2.setEditable(true);
+        spinner2.setPrefSize(100, 20);
+        SpinnerValueFactory<Integer> valueFactory2
+                = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, MAX, 1);
+        spinner2.setValueFactory(valueFactory2);
 
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -173,7 +181,7 @@ public class PrincipalView {
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
         Label l2 = new Label("Seleccionar cantidad");
-        gp.addRow(0, l1, seleccionar, l2, spinner, comparar,escribir);
+        gp.addRow(0, l1, seleccionar, l2, spinner, comparar, escribir, spinner2);
         gp.setHgap(20);
         v1.getChildren().addAll(gp);
         v1.setAlignment(Pos.CENTER);
@@ -338,17 +346,18 @@ public class PrincipalView {
         });
     }
 
-    private void botonEscribir(int cantidad) {
+    private void botonEscribir() {
         escribir.setOnAction(e -> {
 
             File f;
-            //System.out.println(nombreArchivo);
-            Date date = new Date();
-            DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
-            String f1 = hourdateFormat.format(date);
-            f = new File("src/recursos/archivogenerado" + f1 +"("+cantidad+"datos).txt");
-            //Escritura
             try {
+                int cantidad =Integer.parseInt(spinner.getEditor().getText());              
+                Date date = new Date();
+                DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
+                String f1 = hourdateFormat.format(date);
+                f = new File("src/recursos/archivogenerado" + f1 + "(" + cantidad + "datos).txt");
+                //Escritura
+
                 FileWriter w = new FileWriter(f);
                 BufferedWriter bw = new BufferedWriter(w);
                 PrintWriter wr = new PrintWriter(bw);
@@ -357,10 +366,14 @@ public class PrincipalView {
                 }
                 wr.close();
                 bw.close();
+                DialogWindow.dialogoInformacionAleatrio();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
                 DialogWindow.VentanaProblemasTecnicos();
+            } catch (NumberFormatException ee) {
+                DialogWindow.dialogoAdvertenciaNumeros();
             }
+
         });
 
     }

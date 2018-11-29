@@ -140,4 +140,16 @@ public class DialogWindow {
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
     }
+    
+     /**
+     * Este metodo le indica al usuario que se generó el archivo
+     */
+    public static void dialogoInformacionAleatrio() {
+        Alert advertencia = new Alert(Alert.AlertType.INFORMATION);
+        advertencia.setTitle("Archivo generado");
+        advertencia.setContentText("Puede encontrar este archivo en src/recursos/ de este proyecto ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
 }
