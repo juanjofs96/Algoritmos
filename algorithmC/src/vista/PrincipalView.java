@@ -351,7 +351,7 @@ public class PrincipalView {
 
             File f;
             try {
-                int cantidad =Integer.parseInt(spinner.getEditor().getText());              
+                int cantidad =Integer.parseInt(spinner2.getEditor().getText());              
                 Date date = new Date();
                 DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
                 String f1 = hourdateFormat.format(date);
