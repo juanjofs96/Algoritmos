@@ -59,7 +59,8 @@ public class PrincipalView {
     private LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
     public static Font fuente = new Font("Broadway", 22);
 
-    private Image imageFile = new Image("/recursos/FILE.png", 25, 25, false, false);
+    private Image imageFile = new Image("/recursos/folder.png", 25, 25, false, false);
+    private int exceso=0;
 
     /**
      * Constructor de la clase
@@ -129,8 +130,7 @@ public class PrincipalView {
 
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("HTML Files", "*.htm")
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
         );
         lineChart.setTitle("Comparación de Algoritmos");
         xAxis.setLabel("Cantidad de Elementos");
@@ -157,10 +157,8 @@ public class PrincipalView {
      *
      * @return HBox
      */
-    private VBox seccionSeleccion() {
-        VBox box = new VBox();
-        Label l3 = new Label("Análisis de Algoritmos");
-        l3.setFont(fuente);
+    private HBox seccionSeleccion() {
+        
         HBox v1 = new HBox();
         GridPane gp = new GridPane();
         Label l1 = new Label("Seleccionar archivo");
@@ -169,10 +167,8 @@ public class PrincipalView {
         gp.setHgap(20);
         v1.getChildren().addAll(gp);
         v1.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(l3, v1);
-        box.setSpacing(20);
-        box.setAlignment(Pos.CENTER);
-        return box;
+        
+        return v1;
     }
 
     /**
@@ -186,9 +182,13 @@ public class PrincipalView {
     private void AuxGraficar(LineChart<Number, Number> lineChart, List<Double> arr, String algoritmo, int escala) {
         XYChart.Series series = new XYChart.Series();
         series.setName(algoritmo);
+        series.getData().add(new XYChart.Data(0,0));
         int i = 0;
         for (Double x : arr) {
             i += escala;
+            if(this.exceso!=0&&arr.size()*10==i&&(escala==10||escala==100)){   
+                i+=this.exceso;
+            }
             series.getData().add(new XYChart.Data(i, x));
         }
         lineChart.getData().add(series);
@@ -281,13 +281,14 @@ public class PrincipalView {
                     DialogWindow.dialogoAdvertenciaNumeros();
                 } else if (notChecked()) {
                     DialogWindow.dialogoAdvertenciaCheckBox();
-                } else if (valorAnalizar < 20) {
+                } else if (valorAnalizar < 10) {
                     DialogWindow.dialogoAdvertenciaDatos();
                 } else {
+                    this.exceso=valorAnalizar%10;
                     lineChart.getData().clear();
                     List<Integer> arraylist = OperationFile.loadData(ruta, valorAnalizar);
 
-                    Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected());
+                    Sort prueba = new Sort(arraylist, this.merge.isSelected(), this.quick.isSelected(), this.insert.isSelected(), this.stooge.isSelected(),this.exceso);
 
                     Tarea t = new Tarea(prueba);
 
@@ -335,9 +336,10 @@ public class PrincipalView {
      * @return int
      */
     public static int escala(int datos) {
-        if (datos > 0 && datos <= 500) {
+        if (datos > 50 && datos <= 500) {
             return 10;
         }
+        if(datos<=50&&datos>0)return 1;
         return 100;
     }
 }
