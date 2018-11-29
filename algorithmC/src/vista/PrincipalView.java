@@ -351,22 +351,27 @@ public class PrincipalView {
 
             File f;
             try {
-                int cantidad =Integer.parseInt(spinner2.getEditor().getText());              
-                Date date = new Date();
-                DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
-                String f1 = hourdateFormat.format(date);
-                f = new File("src/recursos/archivogenerado" + f1 + "(" + cantidad + "datos).txt");
-                //Escritura
+                int cantidad = Integer.parseInt(spinner2.getEditor().getText());
+                if (cantidad > 0) {
+                    Date date = new Date();
+                    DateFormat hourdateFormat = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy");
+                    String f1 = hourdateFormat.format(date);
+                    f = new File("src/recursos/archivogenerado" + f1 + "(" + cantidad + "datos).txt");
+                    //Escritura
 
-                FileWriter w = new FileWriter(f);
-                BufferedWriter bw = new BufferedWriter(w);
-                PrintWriter wr = new PrintWriter(bw);
-                for (int i = 0; i <= cantidad; i++) {
-                    wr.write("" + (int) (Math.random() * 1000) + 1 + "\n");//escribimos en el archivo
+                    FileWriter w = new FileWriter(f);
+                    BufferedWriter bw = new BufferedWriter(w);
+                    PrintWriter wr = new PrintWriter(bw);
+                    for (int i = 0; i <= cantidad; i++) {
+                        wr.write("" + (int) (Math.random() * 1000) + 1 + "\n");//escribimos en el archivo
+                    }
+                    wr.close();
+                    bw.close();
+                    DialogWindow.dialogoInformacionAleatrio();
+                } else {
+
+                    DialogWindow.dialogoAdvertenciaNumeros();
                 }
-                wr.close();
-                bw.close();
-                DialogWindow.dialogoInformacionAleatrio();
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
                 DialogWindow.VentanaProblemasTecnicos();
