@@ -6,18 +6,20 @@
 package utils;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 /**
  *
  * @author Tiffy
  */
 public class OperationFile {
-
+    private static final String RUTA = "src/recursos/exportData.txt"; 
+    
     private OperationFile() {
     }
 
@@ -42,57 +44,63 @@ public class OperationFile {
         } catch (IOException o) {
             System.out.println(o.getMessage());
             DialogWindow.VentanaProblemasTecnicos();
+        } catch(NumberFormatException e1){
+            System.out.println(e1.getMessage());
+            DialogWindow.dialogoArchivoInvalido();
         }
         return datos;
     }
     
     /**
-     * Método que permite obtener el número de líneas de un archivo 
-     * @param ruta, direccion del archivo que se utilizará
-     * @return int con el número de líneas que contenga el archivo
+     * Método que permite escribir un archivo con los tiempos obtenidos
+     * @param merge, tiempos obtenidos del algoritmo MergeSort
+     * @param quick, tiempos obtenidos del algoritmo QuickSort
+     * @param insert, tiempos obtenidos del algoritmo InsertionSort
+     * @param stooge, tiempos obtenidos del algoritmo StoogeSort
+     * @param m, si MergeSort fue seleccionado
+     * @param q, si Quicksort fue seleccionado
+     * @param i, si InsertionSort fue seleccionado
+     * @param s, si StoogeSort fue seleccionado
+     * @param datos, arreglo con intervalos 
      */
-    public static int cantidadElementos(String ruta) {
+     public static void exportData(List<Double> merge, List<Double> quick, List<Double> insert, List<Double> stooge, boolean m, boolean q, boolean i, boolean s, List<Integer> datos) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(RUTA))) {
+            String line = "Datos" + "\t" + "MergeSort (ms)" + "\t" + "QuickSort (ms)" + "\t" + "InsertionSort (ms)" + "\t" + "StoogeSort (ms)";
+            br.write(line);
+            br.newLine();
 
-       int numLines=0; 
-        File f = new File(ruta);
-        try  (Scanner entrada = new Scanner(f)) {
-       while (entrada.hasNextLine()) { //mientras queden enteros por leer
-                //System.out.println(entrada.nextLine());
-                entrada.nextLine();
-                numLines=numLines+1;
-            }            
-        } catch (FileNotFoundException e) {
-            System.out.println(e.toString());
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return numLines;   
-    }
+            for (int in = 0; in < datos.size(); in++) {
+                String line2 = "";
+                line2 = line2 + String.valueOf(datos.get(in)) + "\t \t";
+                if (m) {
+                    line2 = line2 + String.valueOf(merge.get(in)) + "\t \t";
+                } else {
+                    line2 = line2 + "\t \t";
+                }
+                if (q) {
+                    line2 = line2 + String.valueOf(quick.get(in)) + "\t \t";
+                } else {
+                    line2 = line2 + "\t \t";
+                }
+                if (i) {
+                    line2 = line2 + String.valueOf(insert.get(in)) + "\t \t";
+                } else {
+                    line2 = line2 + "\t \t";
+                }
+                if (s) {
+                    line2 = line2 + String.valueOf(stooge.get(in)) + "\t \t";
+                } else {
+                    line2 = line2 + "\t \t";
+                }
 
-    
-    /**
-     * Método que permite obtener el número de líneas que son enteros
-     * @param ruta, direccion del archivo que se utilizará
-     * @return  int con la cantidad de líneas que son enteros
-     */
-    public static int cantidadLineasEnteros(String ruta){
-        
-        int numeroEntero=0;
-        File f = new File(ruta);
+                br.write(line2);
+                br.newLine();
 
-        try  (Scanner entrada = new Scanner(f)) {
-
-            while (entrada.hasNextInt()) { 
-                //System.out.println(entrada.nextInt());
-                entrada.nextInt();
-                numeroEntero=numeroEntero+1;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println(e.toString());
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            DialogWindow.VentanaProblemasTecnicos();
         }
-        return numeroEntero;
-    }
 
+    }
 }

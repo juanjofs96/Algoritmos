@@ -93,12 +93,25 @@ public class DialogWindow {
     }
     
     /**
+     * Este método le indica al usuario que debe seleccionar una minima cantidad de datos
+     */
+    public static void dialogoAdvertenciaDatosMinimos() {
+        Alert advertencia = new Alert(Alert.AlertType.WARNING);
+        advertencia.setTitle("Error");
+        advertencia.setContentText("Debe asegurarse de seleccionar al menos 10 elementos para realizar la comparación! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
+    
+    /**
      * Este método le indica al usuario que debe ingresar sólo datos numéricos
      */
     public static void dialogoAdvertenciaNumeros() {
         Alert advertencia = new Alert(Alert.AlertType.WARNING);
         advertencia.setTitle("Error");
-        advertencia.setContentText("Debe asegurarse de Ingresar datos numericos! ");
+        advertencia.setContentText("Debe asegurarse de Ingresar datos numéricos positivos! ");
         advertencia.setHeaderText(null);
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
@@ -111,6 +124,18 @@ public class DialogWindow {
         Alert advertencia = new Alert(Alert.AlertType.WARNING);
         advertencia.setTitle("Error");
         advertencia.setContentText("Debe asegurarse de seleccionar al menos un método de comparación! ");
+        advertencia.setHeaderText(null);
+        advertencia.initStyle(StageStyle.UTILITY);
+        advertencia.showAndWait();
+    }
+    
+     /**
+     * Este metodo le indica al usuario que se generó el archivo
+     */
+    public static void dialogoInformacionArchivo() {
+        Alert advertencia = new Alert(Alert.AlertType.INFORMATION);
+        advertencia.setTitle("Archivo exportData.txt generado");
+        advertencia.setContentText("Puede encontrar este archivo en src/recursos/ de este proyecto ");
         advertencia.setHeaderText(null);
         advertencia.initStyle(StageStyle.UTILITY);
         advertencia.showAndWait();
